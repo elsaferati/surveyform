@@ -7,15 +7,34 @@ const RegisterPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+
+  const isStrongPassword = (pass) => {
+    // Minimum 6 characters, at least one letter and one number
+    return /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/.test(pass);
+  };
 
   const handleRegister = (e) => {
     e.preventDefault();
+    setErrorMessage("");
+    setSuccessMessage("");
+
     if (password !== confirmPassword) {
-      alert("Passwords do not match");
+      setErrorMessage("❌ Passwords do not match.");
       return;
     }
+
+    if (!isStrongPassword(password)) {
+      setErrorMessage(
+        "❌ Password must be at least 6 characters long and contain letters and numbers."
+      );
+      return;
+    }
+
+    // Simulate successful registration
+    setSuccessMessage("✅ Successfully registered!");
     console.log("Registering:", name, email, password);
-    // Add backend API logic here
   };
 
   return (
@@ -53,6 +72,10 @@ const RegisterPage = () => {
         <button type="submit">Register</button>
       </form>
 
+      {/* Display messages */}
+      {errorMessage && <p className="error-message">{errorMessage}</p>}
+      {successMessage && <p className="success-message">{successMessage}</p>}
+
       <p className="login-link">
         Already have an account? <Link to="/">Login here</Link>
       </p>
@@ -61,4 +84,5 @@ const RegisterPage = () => {
 };
 
 export default RegisterPage;
+
 
