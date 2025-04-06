@@ -1,7 +1,8 @@
-import ReactDOM from "react-dom/client";
 import React from "react";
-import LoginPage from "./views/LoginPage";
+import ReactDOM from "react-dom/client";
+import App from "./App"; // this should match your file path
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(<LoginPage />);
+root.render(<App />);
+
 
