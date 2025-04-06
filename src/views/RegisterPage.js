@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "../styles/RegisterPage.css";
 
@@ -6,11 +6,16 @@ const RegisterPage = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   const handleRegister = (e) => {
     e.preventDefault();
+    if (password !== confirmPassword) {
+      alert("Passwords do not match");
+      return;
+    }
     console.log("Registering:", name, email, password);
-    // Add logic to send data to backend here
+    // Add backend API logic here
   };
 
   return (
@@ -38,6 +43,13 @@ const RegisterPage = () => {
           required
           onChange={(e) => setPassword(e.target.value)}
         />
+        <input
+          type="password"
+          placeholder="Confirm Password"
+          value={confirmPassword}
+          required
+          onChange={(e) => setConfirmPassword(e.target.value)}
+        />
         <button type="submit">Register</button>
       </form>
 
@@ -49,3 +61,4 @@ const RegisterPage = () => {
 };
 
 export default RegisterPage;
+
