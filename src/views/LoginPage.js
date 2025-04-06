@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import "./styles/LoginPage.css";
 
-
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -12,7 +11,7 @@ const LoginPage = () => {
   };
 
   return (
-    <div style={{ maxWidth: "400px", margin: "100px auto" }}>
+    <div className="login-container">
       <h2>Login</h2>
       <form onSubmit={handleLogin}>
         <input
@@ -21,14 +20,14 @@ const LoginPage = () => {
           value={email}
           required
           onChange={(e) => setEmail(e.target.value)}
-        /><br /><br />
+        />
         <input
           type="password"
           placeholder="Password"
           value={password}
           required
           onChange={(e) => setPassword(e.target.value)}
-        /><br /><br />
+        />
         <button type="submit">Login</button>
       </form>
     </div>
@@ -36,3 +35,4 @@ const LoginPage = () => {
 };
 
 export default LoginPage;
+
