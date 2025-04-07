@@ -1,6 +1,6 @@
 <?php
-require_once 'models/moUserModel.php';
-require_once 'controllers/UserController.php';
+require_once '../models/UserModel.php';
+require_once '../controllers/UserController.php';
 
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: Content-Type");
