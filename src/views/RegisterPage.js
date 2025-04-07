@@ -15,7 +15,7 @@ const RegisterPage = () => {
     return /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/.test(pass);
   };
 
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
     setErrorMessage("");
     setSuccessMessage("");
@@ -32,9 +32,23 @@ const RegisterPage = () => {
       return;
     }
 
-    // Simulate successful registration
-    setSuccessMessage("✅ Successfully registered!");
-    console.log("Registering:", name, email, password);
+    try {
+      const response = await fetch("http://localhost/your-api-path/register.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, password }),
+      });
+
+      const data = await response.json();
+
+      if (data.error) {
+        setErrorMessage("❌ " + data.error);
+      } else {
+        setSuccessMessage("✅ " + data.success);
+      }
+    } catch (error) {
+      setErrorMessage("❌ Something went wrong.");
+    }
   };
 
   return (
@@ -84,5 +98,6 @@ const RegisterPage = () => {
 };
 
 export default RegisterPage;
+
 
 
