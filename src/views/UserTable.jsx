@@ -55,23 +55,30 @@ const UserTable = () => {
     }
   };
 
-  const handleDelete = (id) => {
+  const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this user?")) return;
-
-    fetch(`http://localhost:8008/surveyform/api/delete_user.php`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.success) {
-          fetchUsers();
-        } else {
-          alert(data.error || "Delete failed");
-        }
+  
+    try {
+      const response = await fetch("http://localhost:8008/surveyform/api/delete_user.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id }),
       });
+  
+      const data = await response.json();
+      console.log("✅ Delete response:", data);
+  
+      if (data.success) {
+        fetchUsers(); // Refresh user list
+      } else {
+        alert(data.error || "Delete failed");
+      }
+    } catch (error) {
+      console.error("❌ Delete fetch failed:", error);
+      alert("Could not connect to the server.");
+    }
   };
+  
 
   return (
     <div className="user-table">
