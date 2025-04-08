@@ -23,7 +23,9 @@ class UserController
 
         $success = $this->model->registerUser($name, $email, $password);
 
-        if ($success) {
+        if (is_array($success) && isset($success["error"])) {
+            return ["error" => $success["error"]];
+        } elseif ($success === true) {
             return ["success" => "User registered successfully"];
         } else {
             return ["error" => "Registration failed"];
