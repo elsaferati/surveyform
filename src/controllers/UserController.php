@@ -1,7 +1,6 @@
 <?php
 require_once __DIR__ . '/../models/UserModel.php';
 
-
 class UserController
 {
     private $model;
@@ -13,22 +12,24 @@ class UserController
 
     public function register($data)
     {
-        $name = $data["name"] ?? '';
-        $email = $data["email"] ?? '';
+        $name = trim($data["name"] ?? '');
+        $email = trim($data["email"] ?? '');
         $password = $data["password"] ?? '';
+
+        if (empty($name) || empty($email) || empty($password)) {
+            return ["error" => "All fields are required."];
+        }
 
         if ($this->model->isEmailRegistered($email)) {
             return ["error" => "Email already registered"];
         }
 
-        $success = $this->model->registerUser($name, $email, $password);
+        $result = $this->model->registerUser($name, $email, $password);
 
-        if (is_array($success) && isset($success["error"])) {
-            return ["error" => $success["error"]];
-        } elseif ($success === true) {
-            return ["success" => "User registered successfully"];
-        } else {
-            return ["error" => "Registration failed"];
+        if (is_array($result) && isset($result["error"])) {
+            return ["error" => $result["error"]];
         }
+
+        return $result ? ["success" => "User registered successfully"] : ["error" => "Unknown error"];
     }
 }

@@ -11,7 +11,6 @@ const RegisterPage = () => {
   const [successMessage, setSuccessMessage] = useState("");
 
   const isStrongPassword = (pass) => {
-    // Minimum 6 characters, at least one letter and one number
     return /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/.test(pass);
   };
 
@@ -26,9 +25,7 @@ const RegisterPage = () => {
     }
 
     if (!isStrongPassword(password)) {
-      setErrorMessage(
-        "❌ Password must be at least 6 characters long and contain letters and numbers."
-      );
+      setErrorMessage("❌ Password must be at least 6 characters long and contain letters and numbers.");
       return;
     }
 
@@ -40,6 +37,7 @@ const RegisterPage = () => {
       });
 
       const data = await response.json();
+      console.log("📦 Server response:", data);
 
       if (data.error) {
         setErrorMessage("❌ " + data.error);
@@ -47,7 +45,8 @@ const RegisterPage = () => {
         setSuccessMessage("✅ " + data.success);
       }
     } catch (error) {
-      setErrorMessage("❌ Something went wrong.");
+      console.error("Fetch error:", error);
+      setErrorMessage("❌ Could not connect to the server.");
     }
   };
 
@@ -55,46 +54,19 @@ const RegisterPage = () => {
     <div className="register-container">
       <h2>Register</h2>
       <form onSubmit={handleRegister}>
-        <input
-          type="text"
-          placeholder="Full Name"
-          value={name}
-          required
-          onChange={(e) => setName(e.target.value)}
-        />
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          required
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          required
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="Confirm Password"
-          value={confirmPassword}
-          required
-          onChange={(e) => setConfirmPassword(e.target.value)}
-        />
+        <input type="text" placeholder="Full Name" value={name} required onChange={(e) => setName(e.target.value)} />
+        <input type="email" placeholder="Email" value={email} required onChange={(e) => setEmail(e.target.value)} />
+        <input type="password" placeholder="Password" value={password} required onChange={(e) => setPassword(e.target.value)} />
+        <input type="password" placeholder="Confirm Password" value={confirmPassword} required onChange={(e) => setConfirmPassword(e.target.value)} />
         <button type="submit">Register</button>
       </form>
-
-      {/* Display messages */}
       {errorMessage && <p className="error-message">{errorMessage}</p>}
       {successMessage && <p className="success-message">{successMessage}</p>}
-
-      <p className="login-link">
-        Already have an account? <Link to="/">Login here</Link>
-      </p>
+      <p className="login-link">Already have an account? <Link to="/">Login here</Link></p>
     </div>
   );
 };
 
 export default RegisterPage;
+
+
