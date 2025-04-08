@@ -12,8 +12,8 @@ class UserController
 
     public function register($data)
     {
-        $name = trim($data["name"] ?? '');
-        $email = trim($data["email"] ?? '');
+        $name = $data["name"] ?? '';
+        $email = $data["email"] ?? '';
         $password = $data["password"] ?? '';
 
         if (empty($name) || empty($email) || empty($password)) {
@@ -30,6 +30,6 @@ class UserController
             return ["error" => $result["error"]];
         }
 
-        return $result ? ["success" => "User registered successfully"] : ["error" => "Unknown error"];
+        return $result ? ["success" => "User registered successfully"] : ["error" => "Registration failed"];
     }
 }
