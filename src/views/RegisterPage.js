@@ -10,9 +10,7 @@ const RegisterPage = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
 
-  const isStrongPassword = (pass) => {
-    return /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/.test(pass);
-  };
+  const isStrongPassword = (pass) => /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/.test(pass);
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -30,7 +28,7 @@ const RegisterPage = () => {
     }
 
     try {
-      const response = await fetch("http://localhost/surveyform/api/register.php", {
+      const response = await fetch("http://localhost:8008/surveyform/api/register.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, password }),
@@ -43,6 +41,10 @@ const RegisterPage = () => {
         setErrorMessage("❌ " + data.error);
       } else {
         setSuccessMessage("✅ " + data.success);
+        setName("");
+        setEmail("");
+        setPassword("");
+        setConfirmPassword("");
       }
     } catch (error) {
       console.error("Fetch error:", error);
@@ -60,13 +62,18 @@ const RegisterPage = () => {
         <input type="password" placeholder="Confirm Password" value={confirmPassword} required onChange={(e) => setConfirmPassword(e.target.value)} />
         <button type="submit">Register</button>
       </form>
+
       {errorMessage && <p className="error-message">{errorMessage}</p>}
       {successMessage && <p className="success-message">{successMessage}</p>}
-      <p className="login-link">Already have an account? <Link to="/">Login here</Link></p>
+
+      <p className="login-link">
+        Already have an account? <Link to="/">Login here</Link>
+      </p>
     </div>
   );
 };
 
 export default RegisterPage;
+
 
 

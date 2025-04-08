@@ -32,4 +32,8 @@ class UserController
 
         return $result ? ["success" => "User registered successfully"] : ["error" => "Registration failed"];
     }
+    public function getUsers()
+    {
+        return $this->model->getAllUsers();
+    }
 }

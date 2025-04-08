@@ -33,4 +33,13 @@ class UserModel
       return ["error" => "Execute failed: " . $stmt->error];
     }
   }
+  public function getAllUsers()
+  {
+    $result = $this->conn->query("SELECT id, name, email, created_at FROM users");
+    $users = [];
+    while ($row = $result->fetch_assoc()) {
+      $users[] = $row;
+    }
+    return $users;
+  }
 }
