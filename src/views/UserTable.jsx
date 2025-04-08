@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "../styles/UserTable.css";
+import "../styles/UserTable.css"; 
 
 const UserTable = () => {
   const [users, setUsers] = useState([]);
@@ -15,7 +15,7 @@ const UserTable = () => {
     <div className="user-table">
       <h2>Registered Users</h2>
       {users.length > 0 ? (
-        <table>
+        <table border="1" cellPadding="10" cellSpacing="0">
           <thead>
             <tr>
               <th>ID</th>
@@ -28,7 +28,7 @@ const UserTable = () => {
             {users.map((user) => (
               <tr key={user.id}>
                 <td>{user.id}</td>
-                <td>{user.name}</td>
+                <td>{user.name || "(empty)"}</td>
                 <td>{user.email}</td>
                 <td>{user.created_at}</td>
               </tr>
@@ -43,3 +43,4 @@ const UserTable = () => {
 };
 
 export default UserTable;
+

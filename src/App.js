@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import LoginPage from "./views/LoginPage";
 import RegisterPage from "./views/RegisterPage";
-import UserTable from "./components/UserTable";
+import UserTable from "./views/UserTable";
 
 const App = () => {
   return (
