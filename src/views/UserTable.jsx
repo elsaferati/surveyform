@@ -22,21 +22,37 @@ const UserTable = () => {
     setEditedUser({ name: user.name, email: user.email });
   };
 
-  const handleUpdate = () => {
-    fetch(`http://localhost:8008/surveyform/api/update_user.php`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id: editingUserId, ...editedUser }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.success) {
-          fetchUsers();
-          setEditingUserId(null);
-        } else {
-          alert(data.error || "Update failed");
-        }
+  const handleUpdate = async () => {
+    try {
+      const response = await fetch("http://localhost:8008/surveyform/api/update_user.php", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id: editingUserId,
+          name: editedUser.name,
+          email: editedUser.email,
+        }),
       });
+
+      const data = await response.json();
+      console.log("✅ Update response:", data);
+
+      if (data.success) {
+        setUsers((prev) =>
+          prev.map((user) =>
+            user.id === editingUserId ? { ...user, ...editedUser } : user
+          )
+        );
+        setEditingUserId(null);
+      } else {
+        alert(data.error || "Update failed");
+      }
+    } catch (error) {
+      console.error("❌ Update fetch failed:", error);
+      alert("Failed to update user.");
+    }
   };
 
   const handleDelete = (id) => {
@@ -123,6 +139,7 @@ const UserTable = () => {
 };
 
 export default UserTable;
+
 
 
 
