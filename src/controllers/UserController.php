@@ -16,8 +16,8 @@ class UserController
         $email = $data["email"] ?? '';
         $password = $data["password"] ?? '';
 
-        if (empty($name) || empty($email) || empty($password)) {
-            return ["error" => "All fields are required."];
+        if (!$name || !$email || !$password) {
+            return ["error" => "Missing required fields"];
         }
 
         if ($this->model->isEmailRegistered($email)) {
@@ -27,7 +27,7 @@ class UserController
         $result = $this->model->registerUser($name, $email, $password);
 
         if (is_array($result) && isset($result["error"])) {
-            return ["error" => $result["error"]];
+            return $result;
         }
 
         return $result ? ["success" => "User registered successfully"] : ["error" => "Registration failed"];
