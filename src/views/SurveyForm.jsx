@@ -1,6 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
+import '../styles/SurveyForm.css'; // Ensure this path is correct
+
 
 function SurveyForm() {
   const navigate = useNavigate(); // ✅ Move here
