@@ -1,11 +1,14 @@
-function ThankYou() {
-    return (
-      <div className="text-center mt-10">
-        <h1 className="text-2xl text-green-600 font-bold">Thank you for completing the survey!</h1>
-        <p>We appreciate your feedback.</p>
-      </div>
-    );
-  }
-  
-  export default ThankYou;
-  
+// src/views/Thankyou.jsx
+import React from "react";
+import '../styles/Thankyou.css';  // Import the CSS for styling
+
+function Thankyou() {
+  return (
+    <div className="thankyou-container">
+      <h1 className="thankyou-title">Thank you for completing the survey!</h1>
+      <p className="thankyou-message">We appreciate your feedback. Your responses help us improve our services.</p>
+    </div>
+  );
+}
+
+export default Thankyou;
