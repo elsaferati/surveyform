@@ -1,5 +1,6 @@
+// src/App.jsx
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import LoginPage from "./views/LoginPage";
 import RegisterPage from "./views/RegisterPage";
 import UserTable from "./views/UserTable";
@@ -10,7 +11,11 @@ const App = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<LoginPage />} />
+        {/* Redirect / to /login */}
+        <Route path="/" element={<Navigate to="/login" replace />} />
+        
+        {/* Regular routes */}
+        <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/users" element={<UserTable />} />
         <Route path="/survey" element={<SurveyForm />} />       {/* ✅ Add this */}
