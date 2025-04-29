@@ -1,0 +1,52 @@
+/* SurveyForm.css */
+.survey-form-container {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f7fafc;
+}
+
+.survey-form {
+    background-color: white;
+    padding: 32px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px;
+}
+
+.survey-form h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #4a4a4a;
+    text-align: center;
+    margin-bottom: 24px; /* Add space below the title */
+}
+
+.survey-form input,
+.survey-form textarea,
+.survey-form button {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin-top: 8px;
+    font-size: 1rem;
+}
+
+.survey-form textarea {
+    margin-bottom: 16px; /* Add space between textareas */
+}
+
+.survey-form button {
+    background-color: #3182ce;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 16px; /* Add space above the button */
+}
+
+.survey-form button:hover {
+    background-color: #2c5282;
+}
