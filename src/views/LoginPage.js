@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "../styles/LoginPage.css";
-import { Link } from "react-router-dom"; // if you're using react-router
+import { Link } from "react-router-dom";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -8,27 +8,29 @@ const LoginPage = () => {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    console.log("Logging in with", email, password);
-  };
 
-  fetch('http://localhost/surveyform/login.php', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: new URLSearchParams({
-      username: 'emri_perdoruesit',
-      password: 'fjalekalimi'
+    fetch('http://localhost/surveyform/backend/login.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({
+        username: email,
+        password: password
+      })
     })
-  })
-  .then(response => response.json())
-  .then(data => {
-    if (data.success) {
-      // Përdoruesi u autentikua me sukses
-    } else {
-      // Shfaq mesazhin e gabimit
-      console.error(data.message);
-    }
-  });
-  
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success) {
+          alert("Login i suksesshëm!");
+          // mund të ruash sesion ose redirect
+        } else {
+          alert("Gabim: " + data.message);
+        }
+      })
+      .catch((error) => {
+        console.error("Gabim gjatë login-it:", error);
+        alert("Gabim gjatë lidhjes me serverin.");
+      });
+  };
 
   return (
     <div className="login-container">
@@ -59,5 +61,4 @@ const LoginPage = () => {
 };
 
 export default LoginPage;
-
 
