@@ -11,23 +11,25 @@ const LoginPage = () => {
 
     fetch('http://localhost/surveyform/backend/login.php', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
       body: new URLSearchParams({
         username: email,
         password: password
       })
     })
-      .then((response) => response.json())
-      .then((data) => {
+      .then(res => res.json())
+      .then(data => {
+        console.log(data);
         if (data.success) {
           alert("Login i suksesshëm!");
-          // mund të ruash sesion ose redirect
         } else {
           alert("Gabim: " + data.message);
         }
       })
-      .catch((error) => {
-        console.error("Gabim gjatë login-it:", error);
+      .catch(err => {
+        console.error("Gabim gjatë kërkesës:", err);
         alert("Gabim gjatë lidhjes me serverin.");
       });
   };
@@ -61,4 +63,3 @@ const LoginPage = () => {
 };
 
 export default LoginPage;
-
