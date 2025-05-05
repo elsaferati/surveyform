@@ -1,4 +1,5 @@
 <?php
+header("Access-Control-Allow-Origin: *");
 define('DB_SERVER', 'localhost');
 define('DB_USERNAME', 'root'); // ose emri i përdoruesit tënd
 define('DB_PASSWORD', '');     // ose fjalëkalimi yt

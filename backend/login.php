@@ -4,10 +4,6 @@ header("Content-Type: application/json");
 
 require_once "config.php";
 
-if ($_SERVER["REQUEST_METHOD"] !== "POST") {
-    echo json_encode(["success" => false, "message" => "Vetëm POST lejohet"]);
-    exit;
-}
 
 $username = $_POST["username"] ?? "";
 $password = $_POST["password"] ?? "";
