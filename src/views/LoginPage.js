@@ -3,35 +3,33 @@ import "../styles/LoginPage.css";
 import { Link } from "react-router-dom";
 
 const LoginPage = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [message, setMessage] = useState('');
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
 
-    fetch('http://localhost/surveyform/backend/login.php', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      },
-      body: new URLSearchParams({
-        username: email,
-        password: password
-      })
-    })
-      .then(res => res.json())
-      .then(data => {
-        console.log(data);
-        if (data.success) {
-          alert("Login i suksesshëm!");
-        } else {
-          alert("Gabim: " + data.message);
-        }
-      })
-      .catch(err => {
-        console.error("Gabim gjatë kërkesës:", err);
-        alert("Gabim gjatë lidhjes me serverin.");
+    try {
+      const response = await fetch('http://localhost/surveyform-backend/login.php', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password }),
       });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setMessage(data.message);
+        // mund të ruash përdoruesin në localStorage nëse do
+      } else {
+        setMessage(data.message);
+      }
+    } catch (error) {
+      setMessage('Gabim në lidhje me serverin');
+    }
   };
 
   return (
@@ -39,11 +37,11 @@ const LoginPage = () => {
       <h2>Login</h2>
       <form onSubmit={handleLogin}>
         <input
-          type="email"
-          placeholder="Email"
-          value={email}
+          type="text"
+          placeholder="Username"
+          value={username}
           required
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(e) => setUsername(e.target.value)}
         />
         <input
           type="password"
@@ -55,6 +53,8 @@ const LoginPage = () => {
         <button type="submit">Login</button>
       </form>
 
+      <p>{message}</p>
+
       <p className="register-link">
         Don't have an account? <Link to="/register">Register here</Link>
       </p>
@@ -63,3 +63,4 @@ const LoginPage = () => {
 };
 
 export default LoginPage;
+

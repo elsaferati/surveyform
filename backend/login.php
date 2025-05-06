@@ -4,11 +4,13 @@ header("Content-Type: application/json");
 
 require_once "config.php";
 
+// Merr të dhënat nga React (JSON)
+$data = json_decode(file_get_contents("php://input"), true);
 
-$username = $_POST["username"] ?? "";
-$password = $_POST["password"] ?? "";
+$username = $data["username"] ?? "";
+$password = $data["password"] ?? "";
 
-// Query databazën
+// Kontrollo në databazë
 $sql = "SELECT id, password FROM users WHERE username = ?";
 $stmt = $mysqli->prepare($sql);
 $stmt->bind_param("s", $username);
