@@ -11,7 +11,7 @@ const LoginPage = () => {
     e.preventDefault();
   
     try {
-      const response = await fetch('http://localhost/surveyform-backend/login.php', {
+      const response = await fetch('http://localhost/surveyform/backend/login.php', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
