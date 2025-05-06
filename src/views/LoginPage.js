@@ -9,7 +9,7 @@ const LoginPage = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-
+  
     try {
       const response = await fetch('http://localhost/surveyform-backend/login.php', {
         method: 'POST',
@@ -18,20 +18,20 @@ const LoginPage = () => {
         },
         body: JSON.stringify({ username, password }),
       });
-
+  
       const data = await response.json();
-
+  
       if (data.success) {
         setMessage(data.message);
-        // mund të ruash përdoruesin në localStorage nëse do
+        localStorage.setItem('loggedInUser', username);
+        window.location.href = "/dashboard";
       } else {
-        setMessage(data.message);
+        setMessage(data.message || 'Login i pasaktë');
       }
     } catch (error) {
       setMessage('Gabim në lidhje me serverin');
     }
   };
-
   return (
     <div className="login-container">
       <h2>Login</h2>

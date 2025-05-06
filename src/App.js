@@ -6,6 +6,7 @@ import RegisterPage from "./views/RegisterPage";
 import UserTable from "./views/UserTable";
 import SurveyForm from "./views/SurveyForm";
 import ThankYou from "./views/Thankyou"; // Adjust path if needed
+import Dashboard from './views/Dashboard';
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
         <Route path="/users" element={<UserTable />} />
         <Route path="/survey" element={<SurveyForm />} />       {/* ✅ Add this */}
         <Route path="/thank-you" element={<ThankYou />} />      {/* ✅ Add this */}
+        <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
     </Router>
   );
