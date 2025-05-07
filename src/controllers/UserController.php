@@ -36,4 +36,24 @@ class UserController
     {
         return $this->model->getAllUsers();
     }
+    public function login($data)
+    {
+        $email = $data["email"] ?? '';
+        $password = $data["password"] ?? '';
+
+        if (!$email || !$password) {
+            return ["error" => "Email and password are required"];
+        }
+
+        $user = $this->model->getUserByEmail($email);
+
+        if (!$user || !password_verify($password, $user["password"])) {
+            return ["error" => "Invalid email or password"];
+        }
+
+        // Do not expose password
+        unset($user["password"]);
+
+        return ["success" => "Login successful", "user" => $user];
+    }
 }

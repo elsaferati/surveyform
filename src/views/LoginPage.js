@@ -9,15 +9,16 @@ const LoginPage = () => {
   const handleLogin = (e) => {
     e.preventDefault();
 
-    fetch('http://localhost/surveyform/backend/login.php', {
+    fetch('http://localhost:8008/surveyform/backend/login.php', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
       },
       body: new URLSearchParams({
-        username: email,
+        email: email,
         password: password
       })
+      
     })
       .then(res => res.json())
       .then(data => {
