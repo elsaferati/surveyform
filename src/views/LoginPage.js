@@ -12,27 +12,34 @@ const LoginPage = () => {
     fetch('http://localhost:8008/surveyform/backend/login.php', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
+        'Content-Type': 'application/json'
       },
-      body: new URLSearchParams({
+      body: JSON.stringify({
         email: email,
         password: password
       })
-      
     })
-      .then(res => res.json())
-      .then(data => {
-        console.log(data);
-        if (data.success) {
-          alert("Login i suksesshëm!");
-        } else {
-          alert("Gabim: " + data.message);
-        }
-      })
-      .catch(err => {
-        console.error("Gabim gjatë kërkesës:", err);
-        alert("Gabim gjatë lidhjes me serverin.");
-      });
+    
+    .then(res => res.json())
+    .then(data => {
+      console.log(data);
+    
+      if (data.success) {
+        alert("Login i suksesshëm!");
+        // Mund të ruash user-in në localStorage ose të bësh redirect
+        localStorage.setItem("user", JSON.stringify(data.user));
+        window.location.href = "/users"; // ose "/dashboard" varësisht nga struktura jote
+      } else if (data.error) {
+        alert("Gabim: " + data.error);
+      } else {
+        alert("Gabim i papritur.");
+      }
+    })
+    .catch(err => {
+      console.error("Gabim gjatë kërkesës:", err);
+      alert("Gabim gjatë lidhjes me serverin.");
+    });
+    
   };
 
   return (
