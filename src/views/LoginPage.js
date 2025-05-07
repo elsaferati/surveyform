@@ -28,7 +28,7 @@ const LoginPage = () => {
         alert("Login i suksesshëm!");
         // Mund të ruash user-in në localStorage ose të bësh redirect
         localStorage.setItem("user", JSON.stringify(data.user));
-        window.location.href = "/users"; // ose "/dashboard" varësisht nga struktura jote
+        window.location.href = "/survey"; // ose "/dashboard" varësisht nga struktura jote
       } else if (data.error) {
         alert("Gabim: " + data.error);
       } else {
