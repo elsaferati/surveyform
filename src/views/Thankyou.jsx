@@ -41,7 +41,7 @@ export default function Thankyou() {
           </p>
 
           <button
-            onClick={() => (window.location.href = '/')}
+            onClick={() => (window.location.href = '/survey')}
             className="inline-flex items-center bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition"
           >
             <span>Back to Home</span>
