@@ -48,6 +48,8 @@ const LoginPage = () => {
       <form onSubmit={handleLogin}>
         <input
           type="email"
+          id="email"            
+          name="email" 
           placeholder="Email"
           value={email}
           required
@@ -55,12 +57,14 @@ const LoginPage = () => {
         />
         <input
           type="password"
+          id="password"       
+          name="password" 
           placeholder="Password"
           value={password}
           required
           onChange={(e) => setPassword(e.target.value)}
         />
-        <button type="submit">Login</button>
+       <button type="submit" id="loginButton">Login</button>
       </form>
 
       <p className="register-link">
