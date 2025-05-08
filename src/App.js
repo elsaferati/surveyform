@@ -7,6 +7,8 @@ import UserTable from "./views/UserTable";
 import SurveyForm from "./views/SurveyForm";
 import ThankYou from "./views/Thankyou"; // Adjust path if needed
 import UsersPage from "./views/UsersPage";
+import SurveyResults from "./views/SurveyResults"; 
+
 
 const App = () => {
   return (
@@ -22,6 +24,7 @@ const App = () => {
         <Route path="/survey" element={<SurveyForm />} />       {/* ✅ Add this */}
         <Route path="/thank-you" element={<ThankYou />} />      {/* ✅ Add this */}
         <Route path="/user" element={<UsersPage />} />
+        <Route path="/survey-results" element={<SurveyResults />} />
       </Routes>
     </Router>
   );
