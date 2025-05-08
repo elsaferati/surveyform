@@ -1,43 +1,68 @@
 <?php
-// Include necessary files
-require_once __DIR__ . '/../src/models/SurveyModel.php';
-require_once __DIR__ . '/../src/controllers/SurveyController.php';
-
-// Set headers
+header('Content-Type: application/json');
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: Content-Type");
-header("Access-Control-Allow-Methods: POST");
-header('Content-Type: application/json');
 
-// Handle preflight request
-if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    http_response_code(200);
-    exit();
-}
+require_once 'config.php';
 
-// Get and decode JSON input
-$rawInput = file_get_contents("php://input");
-$input = json_decode($rawInput, true);
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
+// Read JSON input
+$input = file_get_contents("php://input");
 
 if (!$input) {
-    echo json_encode(["error" => "Invalid JSON input", "raw" => $rawInput]);
+    echo json_encode(["success" => false, "error" => "No input received"]);
     exit();
 }
 
-// Database connection
-$mysqli = new mysqli("localhost", "root", "", "survey_db");  // Update database name accordingly
-if ($mysqli->connect_error) {
-    echo json_encode(["error" => "Connection failed: " . $mysqli->connect_error]);
+$data = json_decode($input, true);
+
+if (!$data) {
+    echo json_encode(["success" => false, "error" => "Invalid JSON", "raw" => $input]);
     exit();
 }
 
-// Instantiate the model and controller
-$model = new SurveyModel($mysqli);
-$controller = new SurveyController($model);
+// Required fields
+$requiredFields = ['name', 'email', 'question1', 'question2', 'question3', 'rating', 'ageGroup', 'feedbackType'];
+foreach ($requiredFields as $field) {
+    if (!isset($data[$field])) {
+        echo json_encode(["success" => false, "error" => "Missing field: $field"]);
+        exit();
+    }
+}
 
-// Call the controller to submit the survey
-$response = $controller->submitSurvey($input);
+// Prepare SQL statement
+$stmt = $conn->prepare("
+    INSERT INTO survey_responses 
+    (name, email, question1, question2, question3, rating, ageGroup, feedbackType)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+");
 
-// Send the response
-echo json_encode($response);
-?>
+if (!$stmt) {
+    echo json_encode(["success" => false, "error" => "Prepare failed: " . $conn->error]);
+    exit();
+}
+
+// Bind parameters
+$stmt->bind_param(
+    "ssssssss",
+    $data['name'],
+    $data['email'],
+    $data['question1'],
+    $data['question2'],
+    $data['question3'],
+    $data['rating'],
+    $data['ageGroup'],
+    $data['feedbackType']
+);
+
+// Execute and respond
+if ($stmt->execute()) {
+    echo json_encode(["success" => true]);
+} else {
+    echo json_encode(["success" => false, "error" => "Execute failed: " . $stmt->error]);
+}
+
+$stmt->close();
+$conn->close();

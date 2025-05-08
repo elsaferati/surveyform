@@ -1,13 +1,14 @@
 <?php
-header("Access-Control-Allow-Origin: *");
-define('DB_SERVER', 'localhost');
-define('DB_USERNAME', 'root'); // ose emri i përdoruesit tënd
-define('DB_PASSWORD', '');     // ose fjalëkalimi yt
-define('DB_NAME', 'surveyform'); // emri i bazës së të dhënave
+$host = "localhost";
+$port = 3306; // default MySQL port, leave this unless you're using a custom port
+$username = "root";
+$password = ""; // set this if your MySQL has a password
+$database = "surveyform";
 
-$mysqli = new mysqli(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_NAME);
+// Create connection
+$conn = new mysqli($host, $username, $password, $database, $port);
 
-if ($mysqli->connect_error) {
-    die("Lidhja dështoi: " . $mysqli->connect_error);
+// Check connection
+if ($conn->connect_error) {
+    die(json_encode(["success" => false, "error" => "Connection failed: " . $conn->connect_error]));
 }
-?>

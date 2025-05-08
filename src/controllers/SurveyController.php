@@ -1,21 +1,33 @@
 <?php
-require_once __DIR__ . '/../src/models/SurveyModel.php';
+require_once __DIR__ . '/../models/SurveyModel.php';
 
-class SurveyController {
+class SurveyController
+{
     private $model;
 
-    public function __construct($model) {
+    public function __construct($model)
+    {
         $this->model = $model;
     }
 
-    public function submitSurvey($data) {
-        // Perform simple validation
-        if (empty($data['name']) || empty($data['email']) || empty($data['question1']) || empty($data['question2']) || empty($data['question3']) || empty($data['rating'])) {
-            return ["error" => "All fields are required"];
+    public function submitSurvey($data)
+    {
+        if (
+            empty($data['name']) ||
+            empty($data['email']) ||
+            empty($data['question1']) ||
+            empty($data['question2']) ||
+            empty($data['question3']) ||
+            empty($data['rating'])
+        ) {
+            return ["error" => "All required fields must be filled"];
         }
 
-        // Call the model to insert data into the database
         return $this->model->submitSurvey($data);
     }
+
+    public function getAllSurveys()
+    {
+        return $this->model->fetchAllSurveys();
+    }
 }
-?>

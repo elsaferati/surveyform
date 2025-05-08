@@ -1,37 +1,47 @@
 <?php
-class SurveyModel {
+class SurveyModel
+{
     private $mysqli;
 
-    public function __construct($mysqli) {
+    public function __construct($mysqli)
+    {
         $this->mysqli = $mysqli;
     }
 
-    public function submitSurvey($data) {
-        // Prepare the SQL query to insert the survey data
+    public function submitSurvey($data)
+    {
         $stmt = $this->mysqli->prepare(
-            "INSERT INTO survey_responses (name, email, question1, question2, question3, rating, ageGroup, feedbackType, submitted_at) 
-             VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW())"
+            "INSERT INTO survey_responses (name, email, question1, question2, question3, rating, ageGroup, feedbackType)
+             VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
         );
-
-        // Bind parameters
         $stmt->bind_param(
-            "ssssssss", 
-            $data['name'], 
-            $data['email'], 
-            $data['question1'], 
-            $data['question2'], 
-            $data['question3'], 
-            $data['rating'], 
-            $data['ageGroup'], 
+            "ssssssss",
+            $data['name'],
+            $data['email'],
+            $data['question1'],
+            $data['question2'],
+            $data['question3'],
+            $data['rating'],
+            $data['ageGroup'],
             $data['feedbackType']
         );
 
-        // Execute the query
         if ($stmt->execute()) {
-            return ["success" => true, "message" => "Survey submitted successfully"];
+            return ["success" => true];
         } else {
-            return ["error" => "Failed to submit survey: " . $stmt->error];
+            return ["error" => $stmt->error];
         }
     }
+
+    public function fetchAllSurveys()
+    {
+        $result = $this->mysqli->query("SELECT * FROM survey_responses ORDER BY submitted_at DESC");
+        $surveys = [];
+
+        while ($row = $result->fetch_assoc()) {
+            $surveys[] = $row;
+        }
+
+        return $surveys;
+    }
 }
-?>

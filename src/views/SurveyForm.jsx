@@ -14,10 +14,10 @@ export default function SurveyForm() {
     question3: '',
     rating: '',
     ageGroup: '',
-    feedbackType: '', // Can be Positive, Neutral, or Negative
+    feedbackType: '',
   });
 
-  const [errors, setErrors] = useState({}); // To handle form validation errors
+  const [errors, setErrors] = useState({});
 
   const handleChange = e => {
     const { name, value } = e.target;
@@ -27,28 +27,30 @@ export default function SurveyForm() {
   const handleSubmit = async e => {
     e.preventDefault();
 
-    // Simple client-side validation
-    let validationErrors = {};
-
+    const validationErrors = {};
     if (!formData.name) validationErrors.name = 'Name is required';
     if (!formData.email) validationErrors.email = 'Email is required';
     if (!formData.question1) validationErrors.question1 = 'Question 1 is required';
     if (!formData.question2) validationErrors.question2 = 'Question 2 is required';
     if (!formData.question3) validationErrors.question3 = 'Question 3 is required';
     if (!formData.rating) validationErrors.rating = 'Rating is required';
+    if (!formData.ageGroup) validationErrors.ageGroup = 'Age group is required';
+    if (!formData.feedbackType) validationErrors.feedbackType = 'Feedback type is required';
 
     setErrors(validationErrors);
-
-    if (Object.keys(validationErrors).length > 0) return; // Stop submission if validation fails
+    if (Object.keys(validationErrors).length > 0) return;
 
     try {
-      // Submit survey data to backend
       await axios.post(
-        'http://localhost/surveyform/submitSurvey.php', // ✔️ updated to correct PHP file name and port
-        formData,
-        { headers: { 'Content-Type': 'application/json' } }
+        'http://localhost:8008/surveyform/backend/submitSurvey.php',
+        {
+          ...formData,
+          rating: parseInt(formData.rating) // ✅ Ensure rating is an integer
+        },
+        {
+          headers: { 'Content-Type': 'application/json' }
+        }
       );
-      
       navigate('/thank-you');
     } catch (err) {
       console.error(err);
@@ -100,9 +102,7 @@ export default function SurveyForm() {
 
             {/* Question 1 */}
             <div>
-              <label className="block mb-2 font-medium">
-                1. What do you think about our service?
-              </label>
+              <label className="block mb-2 font-medium">1. What do you think about our service?</label>
               <textarea
                 name="question1"
                 rows="3"
@@ -116,14 +116,13 @@ export default function SurveyForm() {
 
             {/* Question 2 */}
             <div>
-              <label className="block mb-2 font-medium">
-                2. What can we improve?
-              </label>
+              <label className="block mb-2 font-medium">2. What can we improve?</label>
               <textarea
                 name="question2"
                 rows="3"
                 value={formData.question2}
                 onChange={handleChange}
+                required
                 className="w-full border border-gray-300 rounded-md p-3 focus:ring-2 focus:ring-blue-400"
               />
               {errors.question2 && <span className="text-red-600 text-sm">{errors.question2}</span>}
@@ -131,9 +130,7 @@ export default function SurveyForm() {
 
             {/* Question 3 */}
             <div>
-              <label className="block mb-2 font-medium">
-                3. Would you recommend us to others?
-              </label>
+              <label className="block mb-2 font-medium">3. Would you recommend us to others?</label>
               <div className="flex space-x-4">
                 {['Yes', 'No', 'Maybe'].map(opt => (
                   <label key={opt} className="inline-flex items-center">
@@ -155,19 +152,17 @@ export default function SurveyForm() {
 
             {/* Rating */}
             <div>
-              <label className="block mb-2 font-medium">
-                4. Overall rating (1–5)
-              </label>
+              <label className="block mb-2 font-medium">4. Overall rating (1–5)</label>
               <div className="flex space-x-3">
                 {[1, 2, 3, 4, 5].map(n => (
                   <button
                     key={n}
                     type="button"
                     onClick={() => setFormData(prev => ({ ...prev, rating: String(n) }))}
-                    className={`px-4 py-2 rounded-lg border
-                      ${formData.rating === String(n)
+                    className={`px-4 py-2 rounded-lg border ${
+                      formData.rating === String(n)
                         ? 'bg-blue-600 text-white border-blue-600'
-                        : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-100'}
+                        : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-100'
                     }`}
                   >
                     {n}
@@ -177,15 +172,14 @@ export default function SurveyForm() {
               {errors.rating && <span className="text-red-600 text-sm">{errors.rating}</span>}
             </div>
 
-            {/* Additional Fields */}
+            {/* Age Group */}
             <div>
-              <label className="block mb-2 font-medium">
-                Age Group
-              </label>
+              <label className="block mb-2 font-medium">Age Group</label>
               <select
                 name="ageGroup"
                 value={formData.ageGroup}
                 onChange={handleChange}
+                required
                 className="w-full border border-gray-300 rounded-md p-3 focus:ring-2 focus:ring-blue-400"
               >
                 <option value="">Select Age Group</option>
@@ -194,16 +188,17 @@ export default function SurveyForm() {
                 <option value="36-45">36-45</option>
                 <option value="46+">46+</option>
               </select>
+              {errors.ageGroup && <span className="text-red-600 text-sm">{errors.ageGroup}</span>}
             </div>
 
+            {/* Feedback Type */}
             <div>
-              <label className="block mb-2 font-medium">
-                Feedback Type
-              </label>
+              <label className="block mb-2 font-medium">Feedback Type</label>
               <select
                 name="feedbackType"
                 value={formData.feedbackType}
                 onChange={handleChange}
+                required
                 className="w-full border border-gray-300 rounded-md p-3 focus:ring-2 focus:ring-blue-400"
               >
                 <option value="">Select Feedback Type</option>
@@ -211,9 +206,10 @@ export default function SurveyForm() {
                 <option value="Neutral">Neutral</option>
                 <option value="Negative">Negative</option>
               </select>
+              {errors.feedbackType && <span className="text-red-600 text-sm">{errors.feedbackType}</span>}
             </div>
 
-            {/* Submit */}
+            {/* Submit Button */}
             <button
               type="submit"
               className="w-full bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700 transition"
@@ -228,3 +224,4 @@ export default function SurveyForm() {
     </div>
   );
 }
+
