@@ -1,6 +1,6 @@
+import axios from 'axios';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
@@ -44,10 +44,11 @@ export default function SurveyForm() {
     try {
       // Submit survey data to backend
       await axios.post(
-        'http://localhost/surveyapp/submitSurvey.php',
+        'http://localhost/surveyform/submitSurvey.php', // ✔️ updated to correct PHP file name and port
         formData,
         { headers: { 'Content-Type': 'application/json' } }
       );
+      
       navigate('/thank-you');
     } catch (err) {
       console.error(err);
