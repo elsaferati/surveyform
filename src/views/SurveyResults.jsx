@@ -113,18 +113,19 @@ export default function SurveyResults() {
                     </td>
                     <td className="border px-2 py-1">{res.submitted_at}</td>
                     <td className="border px-2 py-1">
-                      <button
-                        onClick={handleUpdate}
-                        className="text-green-600 hover:underline mr-2"
-                      >
-                        Save
-                      </button>
-                      <button
-                        onClick={() => setEditingId(null)}
-                        className="text-gray-600 hover:underline"
-                      >
-                        Cancel
-                      </button>
+                    <button
+  onClick={handleUpdate}
+  className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 mr-2"
+>
+  Save
+</button>
+<button
+  onClick={() => setEditingId(null)}
+  className="bg-gray-400 text-white px-3 py-1 rounded hover:bg-gray-500"
+>
+  Cancel
+</button>
+
                     </td>
                   </>
                 ) : (
@@ -139,18 +140,19 @@ export default function SurveyResults() {
                     <td className="border px-2 py-1">{res.feedbackType}</td>
                     <td className="border px-2 py-1">{res.submitted_at}</td>
                     <td className="border px-2 py-1">
-                      <button
-                        onClick={() => handleEditClick(res)}
-                        className="text-blue-600 hover:underline mr-2"
-                      >
-                        Edit
-                      </button>
-                      <button
-                        onClick={() => handleDelete(res.id)}
-                        className="text-red-600 hover:underline"
-                      >
-                        Delete
-                      </button>
+                    <button
+  onClick={() => handleEditClick(res)}
+  className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 mr-2"
+>
+  Edit
+</button>
+<button
+  onClick={() => handleDelete(res.id)}
+  className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
+>
+  Delete
+</button>
+
                     </td>
                   </>
                 )}

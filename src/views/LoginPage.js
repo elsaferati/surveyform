@@ -19,16 +19,31 @@ const LoginPage = () => {
         password: password
       })
     })
-    
     .then(res => res.json())
     .then(data => {
       console.log(data);
     
       if (data.success) {
         alert("Login i suksesshëm!");
-        // Mund të ruash user-in në localStorage ose të bësh redirect
-        localStorage.setItem("user", JSON.stringify(data.user));
-        window.location.href = "/survey"; // ose "/dashboard" varësisht nga struktura jote
+
+        const user = data.user;
+
+        // 👇 Add admin check
+        if (user.email === "elsa@gmail.com") {
+          user.isAdmin = true;
+        } else {
+          user.isAdmin = false;
+        }
+
+        localStorage.setItem("user", JSON.stringify(user));
+
+        // Optional: Redirect to dashboard if admin
+        if (user.isAdmin) {
+          window.location.href = "/survey";
+        } else {
+          window.location.href = "/survey";
+        }
+
       } else if (data.error) {
         alert("Gabim: " + data.error);
       } else {
@@ -39,7 +54,6 @@ const LoginPage = () => {
       console.error("Gabim gjatë kërkesës:", err);
       alert("Gabim gjatë lidhjes me serverin.");
     });
-    
   };
 
   return (
@@ -75,3 +89,4 @@ const LoginPage = () => {
 };
 
 export default LoginPage;
+

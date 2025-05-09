@@ -8,6 +8,7 @@ import SurveyForm from "./views/SurveyForm";
 import ThankYou from "./views/Thankyou"; // Adjust path if needed
 import UsersPage from "./views/UsersPage";
 import SurveyResults from "./views/SurveyResults"; 
+import Dashboard from "./views/Dashboard";
 
 
 const App = () => {
@@ -25,6 +26,7 @@ const App = () => {
         <Route path="/thank-you" element={<ThankYou />} />      {/* ✅ Add this */}
         <Route path="/user" element={<UsersPage />} />
         <Route path="/survey-results" element={<SurveyResults />} />
+        <Route path="/dashboard" element={<Dashboard />}></Route>
       </Routes>
     </Router>
   );
