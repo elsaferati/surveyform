@@ -1,29 +1,32 @@
 <?php
-require_once './backend/config.php';
-
+header('Content-Type: application/json');
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: DELETE");
-header("Content-Type: application/json");
+header("Access-Control-Allow-Headers: Content-Type");
 
-// Ensure the 'id' is present and valid
-$id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+require_once '../backend/config.php';
 
-if ($id > 0) {
-    $stmt = $conn->prepare("DELETE FROM survey_responses WHERE id = ?");
-    $stmt->bind_param("i", $id);
-
-    if ($stmt->execute()) {
-        http_response_code(200);
-        echo json_encode(["message" => "Deleted"]);
-    } else {
-        http_response_code(500);
-        echo json_encode(["message" => "Failed to delete"]);
-    }
-
-    $stmt->close();
-} else {
-    http_response_code(400);
-    echo json_encode(["message" => "Invalid ID"]);
+if ($_SERVER['REQUEST_METHOD'] !== 'DELETE') {
+    echo json_encode(["success" => false, "error" => "Invalid request method"]);
+    exit();
 }
 
+parse_str($_SERVER['QUERY_STRING'], $query);
+$id = $query['id'] ?? null;
+
+if (!$id) {
+    echo json_encode(["success" => false, "error" => "Missing ID"]);
+    exit();
+}
+
+$stmt = $conn->prepare("DELETE FROM survey_responses WHERE id = ?");
+$stmt->bind_param("i", $id);
+
+if ($stmt->execute()) {
+    echo json_encode(["success" => true]);
+} else {
+    echo json_encode(["success" => false, "error" => $stmt->error]);
+}
+
+$stmt->close();
 $conn->close();
