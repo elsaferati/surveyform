@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../src/models/UserModel.php';
+require_once __DIR__ . '/../models/UserModel.php';
 
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json");

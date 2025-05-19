@@ -12,7 +12,7 @@ export default function SurveyResults() {
 
   const fetchSurveys = () => {
     setLoading(true);
-    fetch("http://localhost:8008/surveyform/backend/fetchSurveys.php")
+    fetch("http://localhost:8008/surveyform/src/controllers/fetchSurveys.php")
       .then((res) => res.json())
       .then((data) => {
         setResponses(data);
@@ -27,7 +27,7 @@ export default function SurveyResults() {
   const handleDelete = (id) => {
     if (!window.confirm("Are you sure you want to delete this entry?")) return;
 
-    fetch(`http://localhost:8008/surveyform/api/deleteSurvey.php?id=${id}`, {
+    fetch(`http://localhost:8008/surveyform/src/controllers/deleteSurvey.php?id=${id}`, {
       method: "DELETE",
     })
       .then((res) => res.json())
@@ -48,7 +48,7 @@ export default function SurveyResults() {
   };
 
   const handleUpdate = () => {
-    fetch("http://localhost:8008/surveyform/api/updateSurvey.php", {
+    fetch("http://localhost:8008/surveyform/src/controllers/updateSurvey.php", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(editForm),

@@ -42,7 +42,7 @@ export default function SurveyForm() {
 
     try {
       await axios.post(
-        'http://localhost:8008/surveyform/backend/submitSurvey.php',
+        'http://localhost:8008/surveyform/src/controllers/submitSurvey.php',
         {
           ...formData,
           rating: parseInt(formData.rating) // ✅ Ensure rating is an integer

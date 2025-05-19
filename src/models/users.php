@@ -1,6 +1,6 @@
 <?php
-require_once __DIR__ . '/../src/models/UserModel.php';
-require_once __DIR__ . '/../src/controllers/UserController.php';
+require_once __DIR__ . '/UserModel.php';
+require_once __DIR__ . '/../controllers/UserController.php';
 
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json");

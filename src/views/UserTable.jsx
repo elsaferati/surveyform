@@ -11,7 +11,7 @@ const UserTable = () => {
   }, []);
 
   const fetchUsers = () => {
-    fetch("http://localhost:8008/surveyform/api/users.php")
+    fetch("http://localhost:8008/surveyform/src/models/users.php")
       .then((res) => res.json())
       .then((data) => setUsers(data))
       .catch((err) => console.error("Fetch users failed:", err));
@@ -24,7 +24,7 @@ const UserTable = () => {
 
   const handleUpdate = async () => {
     try {
-      const response = await fetch("http://localhost:8008/surveyform/api/update_user.php", {
+      const response = await fetch("http://localhost:8008/surveyform/src/controllers/update_user.php", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -59,7 +59,7 @@ const UserTable = () => {
     if (!window.confirm("Are you sure you want to delete this user?")) return;
   
     try {
-      const response = await fetch("http://localhost:8008/surveyform/api/delete_user.php", {
+      const response = await fetch("http://localhost:8008/surveyform/src/controllers/delete_user.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id }),

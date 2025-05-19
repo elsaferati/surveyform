@@ -9,7 +9,7 @@ const LoginPage = () => {
   const handleLogin = (e) => {
     e.preventDefault();
 
-    fetch('http://localhost:8008/surveyform/backend/login.php', {
+    fetch('http://localhost:8008/surveyform/src/models/login.php', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

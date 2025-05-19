@@ -28,7 +28,7 @@ const RegisterPage = () => {
     }
 
     try {
-      const response = await fetch("http://localhost:8008/surveyform/backend/register.php", {
+      const response = await fetch("http://localhost:8008/surveyform/src/models/register.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, password }),

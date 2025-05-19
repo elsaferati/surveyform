@@ -7,7 +7,7 @@ const UsersPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("http://localhost:8008/surveyform/api/users.php")
+    fetch("http://localhost:8008/surveyform/src/models/users.php")
       .then((res) => res.json())
       .then((data) => setUsers(data))
       .catch((err) => console.error("Fetch error:", err));
@@ -18,7 +18,7 @@ const UsersPage = () => {
     if (!confirmDelete) return;
 
     try {
-      const res = await fetch("http://localhost:8008/surveyform/api/delete_user.php", {
+      const res = await fetch("http://localhost:8008/surveyform/src/controllers/delete_user.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id }),

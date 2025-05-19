@@ -1,6 +1,6 @@
 <?php
-require_once __DIR__ . '/../src/models/UserModel.php';
-require_once __DIR__ . '/../src/controllers/UserController.php';
+require_once __DIR__ . '/../models/UserModel.php';
+require_once __DIR__ . '/UserController.php';
 
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: Content-Type");
