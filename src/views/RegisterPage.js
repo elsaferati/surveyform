@@ -56,10 +56,38 @@ const RegisterPage = () => {
     <div className="register-container">
       <h2>Register</h2>
       <form onSubmit={handleRegister}>
-        <input type="text" placeholder="Full Name" value={name} required onChange={(e) => setName(e.target.value)} />
-        <input type="email" placeholder="Email" value={email} required onChange={(e) => setEmail(e.target.value)} />
-        <input type="password" placeholder="Password" value={password} required onChange={(e) => setPassword(e.target.value)} />
-        <input type="password" placeholder="Confirm Password" value={confirmPassword} required onChange={(e) => setConfirmPassword(e.target.value)} />
+        <input
+          type="text"
+          id="name"  // Shto id për këtë input
+          placeholder="Full Name"
+          value={name}
+          required
+          onChange={(e) => setName(e.target.value)}
+        />
+        <input
+          type="email"
+          id="email"  // Shto id për këtë input
+          placeholder="Email"
+          value={email}
+          required
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <input
+          type="password"
+          id="password"  // Shto id për këtë input
+          placeholder="Password"
+          value={password}
+          required
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <input
+          type="password"
+          id="confirmPassword"  // Shto id për këtë input
+          placeholder="Confirm Password"
+          value={confirmPassword}
+          required
+          onChange={(e) => setConfirmPassword(e.target.value)}
+        />
         <button type="submit">Register</button>
       </form>
 
@@ -74,6 +102,7 @@ const RegisterPage = () => {
 };
 
 export default RegisterPage;
+
 
 
 

@@ -19,7 +19,7 @@ async function testRegister() {
     await driver.findElement(By.id('password')).sendKeys(password);
     await driver.findElement(By.id('confirmPassword')).sendKeys(confirmPassword);
 
-    await driver.findElement(By.id('registerButton')).click();
+    await driver.findElement(By.css('button[type="submit"]')).click();
 
     // Prisni mesazhin në <p> (për sukses ose gabim)
     await driver.wait(until.elementLocated(By.css('p')), 5000);
