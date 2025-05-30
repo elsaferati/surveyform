@@ -1,24 +1,47 @@
 const { Builder, By, until } = require('selenium-webdriver');
 
-(async function testLogin() {
-  const driver = await new Builder().forBrowser('chrome').build();
+async function testLogin() {
+  let driver = await new Builder().forBrowser('chrome').build();
+
   try {
-    await driver.get('http://localhost:8080'); // vendndodhja ku po ekzekutohet React app-i
+    // Hap faqen e login
+    await driver.get('http://localhost:3000/login'); // Ndrysho URL sipas nevojës
 
-    // Vendos emrat e saktë të inputëve sipas formës tënde React (ndrysho sipas HTML-it real)
-    await driver.findElement(By.name('email')).sendKeys('valira@gmail.com');
-    await driver.findElement(By.name('password')).sendKeys('valira123');
+    // --- Testimi me kredenciale të sakta ---
+    await driver.findElement(By.id('email')).sendKeys('elsa@gmail.com');
+    await driver.findElement(By.id('password')).sendKeys('passwordiSakte123'); // Vendos passwordin e saktë
+    await driver.findElement(By.id('loginButton')).click();
 
-    await driver.findElement(By.id('loginBtn')).click(); // ID ose class e butonit të login-it
+    // Prisni derisa të ridrejtoheni ose të shfaqet element i dashboard-it
+    await driver.wait(until.urlContains('/survey'), 5000);
 
-    await driver.wait(until.elementLocated(By.id('successMessage')), 5000);
+    console.log('Testimi me kredenciale të sakta: ✅ Kaluar');
 
-    const message = await driver.findElement(By.id('successMessage')).getText();
-    console.log("Mesazhi i suksesit: ", message);
+    // --- Testimi me kredenciale të gabuara ---
+    await driver.get('http://localhost:3000/login'); // Rifresko faqen
 
-  } catch (err) {
-    console.error("Testi dështoi: ", err.message);
+    await driver.findElement(By.id('email')).clear();
+    await driver.findElement(By.id('email')).sendKeys('user@example.com');
+    await driver.findElement(By.id('password')).clear();
+    await driver.findElement(By.id('password')).sendKeys('passwordGabim');
+    await driver.findElement(By.id('loginButton')).click();
+
+    // Prisni për alert me gabim ose për mesazh gabimi në faqe
+    // Ja një shembull me alert browser (nëse e përdor)
+    await driver.wait(until.alertIsPresent(), 5000);
+
+    let alert = await driver.switchTo().alert();
+    let alertText = await alert.getText();
+    console.log('Mesazhi i gabimit:', alertText);
+    await alert.accept();
+
+    console.log('Testimi me kredenciale të gabuara: ✅ Kaluar');
+
+  } catch (error) {
+    console.error('Gabim gjatë testimit:', error);
   } finally {
     await driver.quit();
   }
-})();
+}
+
+testLogin();
