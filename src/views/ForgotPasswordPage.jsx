@@ -7,7 +7,7 @@ const ForgotPasswordPage = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    fetch('http://localhost:8008/surveyform/backend/forgot_password.php', {
+    fetch('http://localhost:8008/surveyform/src/controllers/forgot_password.php', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email })
