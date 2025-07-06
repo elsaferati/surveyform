@@ -9,47 +9,65 @@ const RegisterPage = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const isStrongPassword = (pass) => /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/.test(pass);
+  // Password must contain letters and numbers, minimum 6 chars
+  const isStrongPassword = (pass) =>
+    /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/.test(pass);
 
   const handleRegister = async (e) => {
     e.preventDefault();
     setErrorMessage("");
     setSuccessMessage("");
+    setLoading(true);
 
     if (password !== confirmPassword) {
       setErrorMessage("❌ Passwords do not match.");
+      setLoading(false);
       return;
     }
 
     if (!isStrongPassword(password)) {
-      setErrorMessage("❌ Password must be at least 6 characters long and contain letters and numbers.");
+      setErrorMessage(
+        "❌ Password must be at least 6 characters long and contain letters and numbers."
+      );
+      setLoading(false);
       return;
     }
 
     try {
-      const response = await fetch("http://localhost:8008/surveyform/src/models/register.php", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, password }),
-      });
+      const response = await fetch(
+        "http://localhost:8008/surveyform/src/models/register.php",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name, email, password, confirmPassword }),
+        }
+      );
 
       const data = await response.json();
       console.log("📦 Server response:", data);
 
       if (data.error) {
         setErrorMessage("❌ " + data.error);
-      } else {
+      } else if (data.success) {
         setSuccessMessage("✅ " + data.success);
         setName("");
         setEmail("");
         setPassword("");
         setConfirmPassword("");
+        // Redirect to login page after 2 seconds
+        setTimeout(() => {
+          window.location.href = "/";
+        }, 2000);
+      } else {
+        setErrorMessage("❌ Unexpected server response.");
       }
     } catch (error) {
       console.error("Fetch error:", error);
       setErrorMessage("❌ Could not connect to the server.");
     }
+    setLoading(false);
   };
 
   return (
@@ -58,7 +76,7 @@ const RegisterPage = () => {
       <form onSubmit={handleRegister}>
         <input
           type="text"
-          id="name"  // Shto id për këtë input
+          id="name"
           placeholder="Full Name"
           value={name}
           required
@@ -66,7 +84,7 @@ const RegisterPage = () => {
         />
         <input
           type="email"
-          id="email"  // Shto id për këtë input
+          id="email"
           placeholder="Email"
           value={email}
           required
@@ -74,7 +92,7 @@ const RegisterPage = () => {
         />
         <input
           type="password"
-          id="password"  // Shto id për këtë input
+          id="password"
           placeholder="Password"
           value={password}
           required
@@ -82,13 +100,15 @@ const RegisterPage = () => {
         />
         <input
           type="password"
-          id="confirmPassword"  // Shto id për këtë input
+          id="confirmPassword"
           placeholder="Confirm Password"
           value={confirmPassword}
           required
           onChange={(e) => setConfirmPassword(e.target.value)}
         />
-        <button type="submit">Register</button>
+        <button type="submit" disabled={loading}>
+          {loading ? "Registering..." : "Register"}
+        </button>
       </form>
 
       {errorMessage && <p className="error-message">{errorMessage}</p>}
